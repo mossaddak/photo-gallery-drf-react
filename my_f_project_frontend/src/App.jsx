@@ -7,14 +7,10 @@ function App() {
   const [fileItemQuote, setFileItemQuote] = useState([]);
 
   const fetchFiles = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/v1/files');
-      if (!response.ok) throw new Error('Failed to fetch');
-      const data = await response.json();
-      setFileItemQuote(data);
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await fetch("http://127.0.0.1:8000/api/v1/files");
+    if (!response.ok) throw new Error("Failed to fetch");
+    const data = await response.json();
+    setFileItemQuote(data.results);
   };
 
   useEffect(() => {
@@ -28,11 +24,10 @@ function App() {
       <div className="mb-5">
         <Form onSuccess={fetchFiles} />
       </div>
-    
+
       <hr />
       <Card card_contents={fileItemQuote} />
     </div>
   );
 }
-
 export default App;
