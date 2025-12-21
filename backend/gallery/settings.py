@@ -29,18 +29,21 @@ ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
-THIRLD_PARTY_APPS = ["corsheaders"]
+THIRLD_PARTY_APPS = [
+    "corsheaders",
+    "django_cleanup.apps.CleanupConfig",
+]
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles"
+    "django.contrib.staticfiles",
 ]
 DRF_APPS = ["rest_framework"]
-PROJECT_APPS = ["fileroomg"]
-INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS +DRF_APPS
+PROJECT_APPS = ["accountg", "common", "fileroomg", "meapi"]
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + DRF_APPS + THIRLD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -165,3 +168,5 @@ MEDIA_URL = "media/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "accountg.User"

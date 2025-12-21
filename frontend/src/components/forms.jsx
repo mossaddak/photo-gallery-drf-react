@@ -18,7 +18,7 @@ function Form({ onSuccess }) {
 
   const handleSubmit = async (data) => {
     data.preventDefault();
-    console.log("Uploading files:", );
+    console.log("Uploading files:",);
     const uploadPromises = files.map(async (file) => {
       const description = file.name;
 
