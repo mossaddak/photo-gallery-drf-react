@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-import Buton from "./buttons";
+import Buton from "../buttons";
 
 function Form({ onSuccess }) {
   const [files, setFiles] = useState([]);
@@ -27,7 +27,7 @@ function Form({ onSuccess }) {
       formData.append("description", description);
       formData.append("file", file);
 
-      const response = await fetch("http://127.0.0.1:8000/api/v1/files", {
+      const response = await fetch("http://127.0.0.1:8000/api/v1/me/files", {
         method: "POST",
         body: formData,
       });
@@ -55,12 +55,12 @@ function Form({ onSuccess }) {
             placeholder="Title"
             className="form-control form-control-lg"
             onChange={handleTitleChange}
-            style={{ fontSize: "1.2rem", padding: "20px" }}
+            style={{ fontSize: "16px", padding: "8px" }}
             value={title}
           />
         </div>
 
-        <p className="text-center text-success mb-4">
+        <p className="text-center text-success" style={{ fontSize: "14px"}}>
           Select many files → Each file becomes 1 record with auto
           description
         </p>
@@ -72,21 +72,21 @@ function Form({ onSuccess }) {
             multiple
             accept="image/*,.pdf,.doc,.docx"
             onChange={handleFileChange}
-            style={{ fontSize: "1.2rem", padding: "20px" }}
+            style={{ fontSize: "16px", padding: "8px" }}
           />
-          <small className="text-muted d-block mt-2">
+          <small className="text-muted d-block mt-2" style={{ fontSize: "14px"}}>
             Hold Ctrl (Windows) or Cmd (Mac) to select multiple files
           </small>
         </div>
 
         {files.length > 0 && (
           <div className="mb-4 p-4 bg-light rounded border">
-            <h5 className="text-success">
+            <h5 className="text-success" style={{ fontSize: "14px"}}>
               {files.length} file(s) selected → Will create {files.length}{" "}
               records:
             </h5>
             {files.map((file, i) => (
-              <div key={i} className="border p-3 my-2 rounded bg-white">
+              <div key={i} className="border p-3 my-2 rounded bg-white" style={{ fontSize: "14px"}}>
                 <strong>Title:</strong> {file.name.replace(/\.[^/.]+$/, "")}
                 <br />
                 <strong>Description:</strong> {file.name}
@@ -99,7 +99,7 @@ function Form({ onSuccess }) {
           </div>
         )}
 
-        <div className="text-center">
+        <div className="text-center" style={{ fontSize: "14px !important" }}>
           <Buton
             title={`Upload ${files.length} Files Now`}
             disabled={files.length === 0}
