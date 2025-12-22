@@ -3,9 +3,11 @@ import React, { useState, useRef } from "react";
 import Buton from "../buttons";
 
 function Form({ onSuccess }) {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [files, setFiles] = useState([]);
   const [title, setTitle] = useState("");
   const fileInputRef = useRef(null);
+  const token = localStorage.getItem("access_token");
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -18,7 +20,6 @@ function Form({ onSuccess }) {
 
   const handleSubmit = async (data) => {
     data.preventDefault();
-    console.log("Uploading files:",);
     const uploadPromises = files.map(async (file) => {
       const description = file.name;
 
@@ -27,8 +28,11 @@ function Form({ onSuccess }) {
       formData.append("description", description);
       formData.append("file", file);
 
-      const response = await fetch("http://127.0.0.1:8000/api/v1/me/files", {
+      const response = await fetch(`${API_BASE_URL}/me/files`, {
         method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
         body: formData,
       });
 
@@ -60,7 +64,7 @@ function Form({ onSuccess }) {
           />
         </div>
 
-        <p className="text-center text-success" style={{ fontSize: "14px"}}>
+        <p className="text-center text-success" style={{ fontSize: "14px" }}>
           Select many files → Each file becomes 1 record with auto
           description
         </p>
@@ -74,19 +78,19 @@ function Form({ onSuccess }) {
             onChange={handleFileChange}
             style={{ fontSize: "16px", padding: "8px" }}
           />
-          <small className="text-muted d-block mt-2" style={{ fontSize: "14px"}}>
+          <small className="text-muted d-block mt-2" style={{ fontSize: "14px" }}>
             Hold Ctrl (Windows) or Cmd (Mac) to select multiple files
           </small>
         </div>
 
         {files.length > 0 && (
           <div className="mb-4 p-4 bg-light rounded border">
-            <h5 className="text-success" style={{ fontSize: "14px"}}>
+            <h5 className="text-success" style={{ fontSize: "14px" }}>
               {files.length} file(s) selected → Will create {files.length}{" "}
               records:
             </h5>
             {files.map((file, i) => (
-              <div key={i} className="border p-3 my-2 rounded bg-white" style={{ fontSize: "14px"}}>
+              <div key={i} className="border p-3 my-2 rounded bg-white" style={{ fontSize: "14px" }}>
                 <strong>Title:</strong> {file.name.replace(/\.[^/.]+$/, "")}
                 <br />
                 <strong>Description:</strong> {file.name}

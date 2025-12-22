@@ -1,18 +1,46 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
-import Buton from "../buttons";
+import Button from "../buttons";
 
-function Form({ onSuccess }) {
+function LoginForm({ onLogin }) {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const response = await fetch(`${API_BASE_URL}/accounts/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+        });
+        const _data = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem("access_token", _data.access);
+            localStorage.setItem("refresh_token", _data.refresh);
+            onLogin();
+        } else {
+            setError(_data.detail || "Login failed");
+        }
+
+    }
+
     return (
         <div className="my-5 p-5 border rounded shadow bg-white">
-            <h1 style={{ fontSize: "25px"}} className="mb-3">Login</h1>
-            <form >
+            <h1 style={{ fontSize: "25px" }} className="mb-3">Login</h1>
+            <form onSubmit={handleSubmit}>
                 <div className="text-center mb-4">
                     <input
                         type="text"
                         placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         className="form-control form-control-lg"
                         style={{ fontSize: "16px", padding: "8px" }}
+                        required
                     />
                 </div>
 
@@ -20,17 +48,20 @@ function Form({ onSuccess }) {
                     <input
                         type="password"
                         placeholder="Password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
                         className="form-control form-control-lg"
                         style={{ fontSize: "16px", padding: "8px" }}
+                        required
                     />
                 </div>
 
                 <div className="" style={{ fontSize: "14px !important" }}>
-                    <Buton title="Login"/>
+                    <Button title="Login" />
                 </div>
             </form>
         </div>
     );
 }
 
-export default Form;
+export default LoginForm;

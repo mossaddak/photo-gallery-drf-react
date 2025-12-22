@@ -5,7 +5,7 @@ import LoginForm from "../forms/login";
 
 
 
-function Login() {
+function LoginPage() {
   return (
     <>
         <NavBar />
@@ -15,4 +15,4 @@ function Login() {
     </>
   );
 }
-export default Login;
+export default LoginPage;

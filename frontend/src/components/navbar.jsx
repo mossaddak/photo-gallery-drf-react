@@ -24,10 +24,10 @@ function NavBar() {
                             <Link className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <img src="https://avatars.githubusercontent.com/u/73273488?v=4" alt="avatar" width="30" height="30"
-                                    className="rounded-circle" /> Mossaddak
+                                    className="rounded-circle" /> mossaddak
                             </Link>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><Link className="dropdown-item" to="/">Profile</Link></li>
+                                <li><Link className="dropdown-item " to="/">Profile</Link></li>
                                 <li>
                                     <hr className="dropdown-divider" />
                                 </li>

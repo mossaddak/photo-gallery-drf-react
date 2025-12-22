@@ -2,15 +2,18 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 
 from fileroomg.models import FileItem
 
-from ..serializers.files import FileItemListSerializer
+from ..serializers.files import (
+    PrivateMeFileItemListSerializer,
+    PrivateMeFileItemDetailsSerializer,
+)
 
 
 class PrivateMeFileItemList(ListCreateAPIView):
-    serializer_class = FileItemListSerializer
-    queryset = FileItem.objects.all()
+    serializer_class = PrivateMeFileItemListSerializer
+    get_queryset = lambda self: FileItem.objects.filter(user=self.request.user)
 
 
 class PrivateMeFileItemDetails(RetrieveUpdateDestroyAPIView):
-    serializer_class = FileItemListSerializer
-    queryset = FileItem.objects.all()
-    lookup_field = "pk"
+    serializer_class = PrivateMeFileItemDetailsSerializer
+    get_queryset = lambda self: FileItem.objects.filter(user=self.request.user)
+    lookup_field = "uid"

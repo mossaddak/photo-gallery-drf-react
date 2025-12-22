@@ -5,15 +5,17 @@ import Form from "../forms/cards";
 import Pagination from "../paginations";
 import NavBar from "../navbar";
 
-
-
 function App() {
-
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [fileItemQuote, setFileItemQuote] = useState([]);
+  const token = localStorage.getItem("access_token");
 
   const fetchFiles = async () => {
-    const response = await fetch("http://127.0.0.1:8000/api/v1/me/files");
+    const response = await fetch(`${API_BASE_URL}/me/files`, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     if (!response.ok) throw new Error("Failed to fetch");
     const data = await response.json();
     setFileItemQuote(data.results);
@@ -41,7 +43,6 @@ function App() {
           <Pagination />
         </div>
       </div>
-
     </>
   );
 }
