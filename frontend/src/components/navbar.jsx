@@ -1,8 +1,17 @@
-import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
 function NavBar() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("user");
+        navigate("/login", { replace: true });
+    };
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-success">
@@ -14,26 +23,37 @@ function NavBar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/">Sign Up</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/login">Login</Link>
-                        </li>
-                        <li className="nav-item dropdown">
-                            <Link className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <img src="https://avatars.githubusercontent.com/u/73273488?v=4" alt="avatar" width="30" height="30"
-                                    className="rounded-circle" /> mossaddak
-                            </Link>
-                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><Link className="dropdown-item " to="/">Profile</Link></li>
-                                <li>
-                                    <hr className="dropdown-divider" />
+                        {!user ? (
+                            // If user is NOT logged in
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/">Sign Up</Link>
                                 </li>
-                                <li><Link className="dropdown-item" to="/">Logout</Link></li>
-                            </ul>
-                        </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/login">Login</Link>
+                                </li>
+                            </>
+                        ) : (
+                            // If user IS logged in
+                            <li className="nav-item dropdown">
+                                <Link className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <img
+                                        src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.username)}&background=random&color=fff`}
+                                        alt="avatar"
+                                        width="30"
+                                        height="30"
+                                        className="rounded-circle"
+                                    />{" "}
+                                    {user.username}
+                                </Link>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><Link className="dropdown-item" to="/">Profile</Link></li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li><Link className="dropdown-item" onClick={handleLogout}>Logout</Link></li>
+                                </ul>
+                            </li>
+                        )}
                     </ul>
                 </div>
             </div>

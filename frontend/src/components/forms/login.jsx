@@ -5,12 +5,12 @@ import Button from "../buttons";
 function LoginForm({ onLogin }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Fetch API to login
         const response = await fetch(`${API_BASE_URL}/accounts/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -18,14 +18,22 @@ function LoginForm({ onLogin }) {
         });
         const _data = await response.json();
 
+        // If login is successful, store tokens and redirect
         if (response.ok) {
             localStorage.setItem("access_token", _data.access);
             localStorage.setItem("refresh_token", _data.refresh);
+
+            // Fetch login user
+            const user_response = await fetch(`${API_BASE_URL}/me?is_header=true`, {
+                headers: {
+                    "Authorization": `Bearer ${_data.access}`,
+                },
+            });
+            localStorage.setItem("user", JSON.stringify(await user_response.json()));
             onLogin();
         } else {
             setError(_data.detail || "Login failed");
         }
-
     }
 
     return (
