@@ -44,7 +44,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 DRF_APPS = ["rest_framework"]
-PROJECT_APPS = ["accountg", "common", "fileroomg", "meapi"]
+PROJECT_APPS = ["accountg", "common", "fileroomg", "meapi", "publicapi"]
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + DRF_APPS + THIRLD_PARTY_APPS
 
 MIDDLEWARE = [
