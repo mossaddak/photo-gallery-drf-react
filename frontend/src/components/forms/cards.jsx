@@ -91,13 +91,22 @@ function Form({ onSuccess }) {
             </h5>
             {files.map((file, i) => (
               <div key={i} className="border p-3 my-2 rounded bg-white" style={{ fontSize: "14px" }}>
-                <strong>Title:</strong> {file.name.replace(/\.[^/.]+$/, "")}
-                <br />
-                <strong>Description:</strong> {file.name}
-                <br />
-                <span className="badge bg-primary">
-                  {(file.size / 1024 / 1024).toFixed(2)} MB
-                </span>
+                <div className="row">
+                  <div className="col-md-2">
+                    <img src={URL.createObjectURL(file)} alt={file.name} className="img-thumbnail mb-2" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+                  </div>
+
+                  <div className="col-md-10">
+                    <strong>Title:</strong> {file.name.replace(/\.[^/.]+$/, "")}
+                    <br />
+                    <strong>Description:</strong> {file.name}
+                    <br />
+                    <span className="badge bg-primary">
+                      {(file.size / 1024 / 1024).toFixed(2)} MB
+                    </span>
+                  </div>
+                </div>
+
               </div>
             ))}
           </div>

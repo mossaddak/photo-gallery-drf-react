@@ -11,7 +11,11 @@ function App() {
   const token = localStorage.getItem("access_token");
 
   const fetchFiles = async () => {
-    const response = await fetch(`${API_BASE_URL}/public/files`);
+    const response = await fetch(`${API_BASE_URL}/me/files?page_size=12`, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     if (!response.ok) throw new Error("Failed to fetch");
     const data = await response.json();
     setFileItemQuote(data.results);
@@ -20,7 +24,6 @@ function App() {
   useEffect(() => {
     fetchFiles();
   }, []);
-
 
   return (
     <>
