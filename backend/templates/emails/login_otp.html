@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Your OTP Code</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f7fc; font-family: Arial, Helvetica, sans-serif;">
+
+    <table width="100%" cellspacing="0" cellpadding="0" style="background-color:#f4f7fc; padding:40px 0;">
+        <tr>
+            <td align="center">
+                
+                <table width="600px" style="background:#ffffff; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1);" cellpadding="0" cellspacing="0">
+
+                    <!-- Header -->
+                    <tr>
+                        <td align="center" style="background:green; padding:20px; border-radius:10px 10px 0 0;">
+                            <h2 style="color:#ffffff; margin:0;">Your Verification Code</h2>
+                        </td>
+                    </tr>
+
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding:30px; text-align:center; color:#333333;">
+
+                            <h3 style="margin-bottom:10px;">Hello {{user.username}},</h3>
+
+                            <p style="font-size:16px; line-height:24px;">
+                                Use the OTP below to complete your verification process.  
+                                This code is valid for a limited time.
+                            </p>
+
+                            <div style="
+                                margin:20px auto;
+                                font-size:28px;
+                                font-weight:bold;
+                                letter-spacing:6px;
+                                color:green;
+                                padding:15px;
+                                border:2px dashed green;
+                                display:inline-block;
+                                border-radius:8px;">
+                                {{otp}}
+                            </div>
+
+                            <p style="font-size:14px; color:#666;">
+                                If you did not request this code, please ignore this email.
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="padding:20px; background:#f1f5f9; border-radius:0 0 10px 10px; color:#777;">
+                            <p style="font-size:12px; margin:0;">
+                                © 2026 MOSSADDAK gallary, All rights reserved.
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

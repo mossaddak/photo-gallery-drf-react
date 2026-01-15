@@ -26,6 +26,7 @@ class User(AbstractUser, BaseModel):
     ip = models.CharField(max_length=100, blank=True, null=True)
     access_devices = models.TextField(blank=True, null=True)
     joined_date = models.DateTimeField(auto_now_add=True)
+    login_otp = models.IntegerField(blank=True, null=True)
     objects = CustomUserManager()
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]
