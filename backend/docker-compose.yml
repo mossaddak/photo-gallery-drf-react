@@ -1,0 +1,52 @@
+services:
+
+  web:
+    build: .
+    image: gallery-web-image
+    container_name: gallery-web
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=redis
+      - CELERY_REDIS_URL=redis://redis:6379/1
+      - CELERY_BACKEND=redis://redis:6379/3
+      - CELERY_BROKER_URL=redis://redis:6379/4
+      - CELERY_RESULT_BACKEND=redis://redis:6379/5
+    volumes:
+      - .:/app
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  celery:
+    build: .
+    image: gallery-web-image
+    container_name: gallery-celery
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=redis
+      - CELERY_REDIS_URL=redis://redis:6379/1
+      - CELERY_BACKEND=redis://redis:6379/3
+      - CELERY_BROKER_URL=redis://redis:6379/4
+      - CELERY_RESULT_BACKEND=redis://redis:6379/5
+    volumes:
+      - .:/app
+    command: celery -A gallery.celeryapp worker -l info
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: gallery-redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped

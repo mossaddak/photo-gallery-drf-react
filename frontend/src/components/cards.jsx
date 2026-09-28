@@ -15,7 +15,7 @@ function Card({ card_contents }) {
           />
           <h5 className="card-title mt-3">{card_content.title}</h5>
           <p className="card-text">{card_content.description}</p>
-          <Buton title="Go Somewhere" />
+          {/* <Buton title="Go Somewhere" /> */}
         </div>
       ))}
     </div>

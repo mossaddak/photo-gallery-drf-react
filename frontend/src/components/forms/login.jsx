@@ -7,39 +7,41 @@ function LoginForm({ onLogin }) {
     const [password, setPassword] = useState("");
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-    const handleSubmit = async (e) => {
+    const handleLoginSubmit = async (e) => {
         e.preventDefault();
 
         // Fetch API to login
-        const response = await fetch(`${API_BASE_URL}/accounts/login`, {
+        const login_response = await fetch(`${API_BASE_URL}/accounts/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password }),
         });
-        const _data = await response.json();
+        const login_response_data = await login_response.json();
+
+        console.log("Login response:=====================+>", login_response_data);
 
         // If login is successful, store tokens and redirect
-        if (response.ok) {
-            localStorage.setItem("access_token", _data.access);
-            localStorage.setItem("refresh_token", _data.refresh);
+        if (login_response.ok) {
+            localStorage.setItem("access_token", login_response_data.access);
+            localStorage.setItem("refresh_token", login_response_data.refresh);
 
             // Fetch login user
             const user_response = await fetch(`${API_BASE_URL}/me?is_header=true`, {
                 headers: {
-                    "Authorization": `Bearer ${_data.access}`,
+                    "Authorization": `Bearer ${login_response_data.access}`,
                 },
             });
             localStorage.setItem("user", JSON.stringify(await user_response.json()));
             onLogin();
         } else {
-            setError(_data.detail || "Login failed");
+            setError(login_response_data.detail || "Login failed");
         }
     }
 
     return (
         <div className="my-5 p-5 border rounded shadow bg-white">
             <h1 style={{ fontSize: "25px" }} className="mb-3">Login</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleLoginSubmit}>
                 <div className="text-center mb-4">
                     <input
                         type="text"
